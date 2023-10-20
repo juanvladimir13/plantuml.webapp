@@ -1,0 +1,24 @@
+{
+    "name": "juanvladimir13/plantuml",
+    "description": "Client Plantuml",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Plantuml\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Juan Vladimir",
+            "email": "juanvladimir13@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "jawira/plantuml-encoding": "dev-master"
+    },
+    "scripts": {
+        "start": "php -S localhost:8000 -t public"
+    }
+}

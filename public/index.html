@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramas UML</title>
+
+  <style>
+    html,body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .container {
+      box-sizing: border-box;
+      width: 100%;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 500px 1fr;
+      grid-template-rows: 1fr;
+      grid-column-gap: 30px;
+      grid-row-gap: 0px;
+    }
+
+    .editor {
+      box-sizing: border-box;
+      height: 90vh;
+      margin-left: 25px;
+      margin-top: 25px;
+      font-size: x-large;
+      padding: 20px;
+    }
+
+    .editor:focus {
+      outline: none;
+    }
+
+    .image {
+      box-sizing: border-box;
+      height: 100vh;
+      width: 100%;
+    }
+
+    img {
+      box-sizing: border-box;
+      object-fit: contain;
+      height: 100%;
+      width: inherit;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <textarea class="editor" id="editor"></textarea>
+    <div class="image" id="image">
+    </div>
+  </div>
+
+  <script>
+    const endPointEncrypt = 'http://localhost:8000/plant.php'
+
+    const editorCode = document.getElementById('editor');
+
+    editorCode.addEventListener("keydown", function (event) {
+      if (event.ctrlKey && event.altKey) {
+        const data = new URLSearchParams();
+        data.append('m', event.target.value);
+
+        fetch(endPointEncrypt, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: data
+        })
+          .then(data => data.text())
+          .then(data => {
+            const url = data;
+
+            fetch(url)
+              .then(data => data.text())
+              .then(svgContent => {
+                const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+                const blobUrl = URL.createObjectURL(blob);
+                const img = new Image();
+                img.src = blobUrl;
+                document.getElementById('image').innerHTML = '';
+                document.getElementById('image').appendChild(img);
+              })
+          })
+      }
+    });
+  </script>
+</body>
+
+</html>
