@@ -22,19 +22,25 @@
     content="https://res.cloudinary.com/juanvladimir13/image/upload/v1712330060/me/profile.jpg" />
 
   <title>PlantUML | Juan Vladimir</title>
-  <link rel="stylesheet" href="/css/base.css">
+
+  <!-- CodeMirror 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/material-darker.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/mode/simple.min.js"></script>
+
+  <link rel="stylesheet" href="/css/base.min.css">
 </head>
 
 <body>
   <div class="container">
-    <textarea class="editor" id="editor"></textarea>
-    <div class="image" id="image">
+    <div class="editor" id="editor-wrapper">
+      <textarea id="editor"></textarea>
     </div>
-    <div class="author">
-      <h2>@juanvladimir13</h2>
+    <div class="diagram" id="diagram">
     </div>
   </div>
-  <script src="/js/fecthPlantUML.js"></script>
+  <script src="/js/base.min.js"></script>
 </body>
 
 </html>

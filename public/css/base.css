@@ -2,7 +2,6 @@ html,
 body {
   margin: 0px;
   padding: 0px;
-  background: aliceblue;
 }
 
 .container {
@@ -11,40 +10,64 @@ body {
   height: 100vh;
   display: grid;
   grid-template-columns: 500px 1fr;
-  grid-template-rows: 50px 1fr;
-  grid-column-gap: 30px;
-  grid-row-gap: 0px;
 }
 
 .editor {
-  grid-area: 1 / 1 / 3 / 2;
   box-sizing: border-box;
-  height: 93vh;
-  margin-left: 25px;
-  margin-top: 25px;
-  font-size: xx-large;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* CodeMirror llena el contenedor del editor */
+.editor .CodeMirror {
+  height: 100%;
+  font-size: x-large;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  background-color: #1e1e2e;
   padding: 20px;
-  background-color: lightgray;
 }
 
-.editor:focus {
-  outline: none;
+/* Colores custom para tokens PlantUML */
+.cm-s-material-darker .cm-keyword {
+  color: #c792ea;
+  font-weight: bold;
 }
 
-.image {
-  grid-area: 2 / 2 / 3 / 3;
+.cm-s-material-darker .cm-meta {
+  color: #89ddff;
+  font-weight: bold;
+}
+
+.cm-s-material-darker .cm-string {
+  color: #c3e88d;
+}
+
+.cm-s-material-darker .cm-comment {
+  color: #546e7a;
+  font-style: italic;
+}
+
+.cm-s-material-darker .cm-operator {
+  color: #f78c6c;
+}
+
+.cm-s-material-darker .cm-type {
+  color: #ffcb6b;
+}
+
+.cm-s-material-darker .cm-attribute {
+  color: #82aaff;
+}
+
+.cm-s-material-darker .cm-number {
+  color: #f78c6c;
+}
+
+.diagram {
   box-sizing: border-box;
-  height: 93vh;
+  height: 100vh;
   width: 100%;
-}
-
-.author {
-  grid-area: 1 / 2 / 2 / 3;
-}
-
-.author h2 {
-  margin: 10px 20px 0px 0px;
-  text-align: center;
+  background-color: #dddddd;
 }
 
 img {
