@@ -45,8 +45,8 @@ plantuml-client/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/juanvladimir13/plantuml-client.git
-cd plantuml-client
+git clone https://github.com/juanvladimir13/plantuml.webapp.git
+cd plantuml.webapp
 ```
 
 ### 2. Instalar dependencias PHP
