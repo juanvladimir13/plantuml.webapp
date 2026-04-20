@@ -10,6 +10,14 @@ Editor web de diagramas PlantUML con syntax highlighting, renderizado SVG en tie
 | **Composer** | >= 2.x | Gestión de dependencias PHP |
 | **Node.js / npm** | >= 16.x | Herramientas de build (minificación) |
 
+### Configuracion de puertos, aplicaciones y servicios
+
+| Aplicacion | Puerto |
+|-------------|---------|
+| **Web App** | 8888 | 
+| **Proxy Plantuml** | 8889 |
+| **Servicio Plantuml** | 8887 |
+
 ## Estructura del proyecto
 
 ```
@@ -79,10 +87,10 @@ composer js
 
 ### 4. Levantar el servidor PlantUML
 
-#### Instalar OpenJDK
+#### Instalar OpenJDK y Graphviz
 
 ```bash
-sudo apt-get install openjdk-25-jre
+sudo apt-get install openjdk-25-jre graphviz
 ```
 
 #### Crear una carpeta para la APP
@@ -93,7 +101,7 @@ sudo chmod 777 /opt/plantuml
 
 #### Descargar el archivo plantuml.jar
 ```bash
-curl -o /opt/plantuml/plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2026.2/plantuml-lgpl-1.2026.2.jar
+wget -O /opt/plantuml/plantuml.jar https://github.com/plantuml/plantuml/releases/download/v1.2026.2/plantuml-lgpl-1.2026.2.jar
 ```
 
 #### Modificar los permisos de la carpeta plantuml
@@ -103,7 +111,47 @@ sudo chmod 777 -R /opt/plantuml
 
 #### Levantar el servidor PlantUML
 ```bash
-java -jar /opt/plantuml/plantuml.jar -picoweb:8889:0.0.0.0 &
+java -jar /opt/plantuml/plantuml.jar -picoweb:8887 &
+```
+
+### Crear un proxy inverso para conectar HTTPS con PlanUML en apache
+
+#### Activar los módulos de apache
+```bash
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2enmod ssl
+sudo systemctl restart apache2
+```
+
+#### Crear un archivo de configuración para el proxy inverso
+
+```bash
+sudo vim /etc/apache2/sites-available/plantuml.proxy.webapp.conf
+```
+
+```apache
+<VirtualHost *:8889>
+    ServerAdmin juanvladimir13@gmail.com
+    ServerName bthsanjulian.website
+
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:8887/
+    ProxyPassReverse / http://localhost:8887/
+
+    ErrorLog ${APACHE_LOG_DIR}/plantuml_proxy_error.log
+    CustomLog ${APACHE_LOG_DIR}/plantuml_proxy_access.log combined
+
+    SSLEngine on
+    SSLCertificateFile      /etc/letsencrypt/live/bthsanjulian.website/fullchain.pem
+    SSLCertificateKeyFile   /etc/letsencrypt/live/bthsanjulian.website/privkey.pem
+</VirtualHost>
+```
+
+#### Activar el sitio
+```bash
+sudo a2ensite plantuml.proxy.webapp.conf
+sudo systemctl restart apache2
 ```
 
 > El servidor PlantUML debe estar en `http://localhost:8889`. Si necesitas otro host o puerto, edita `.env.php`.
